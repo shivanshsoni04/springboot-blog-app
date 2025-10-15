@@ -12,20 +12,17 @@ COPY .mvn .mvn
 # 4️⃣ Copy source code
 COPY src src
 
-# 5️⃣ Build the Spring Boot application (skip tests for faster build)
+# 5️⃣ Give execution permission to Maven wrapper
+RUN chmod +x mvnw
+
+# 6️⃣ Build the Spring Boot application (skip tests for faster build)
 RUN ./mvnw clean package -DskipTests
 
-# 6️⃣ Copy the built jar into container
-# Make sure the jar name matches the one generated in your target folder
-COPY target/BloggingProject-0.0.1-SNAPSHOT.jar app.jar
+# 7️⃣ Copy the generated jar into container
+RUN cp target/BloggingProject-0.0.1-SNAPSHOT.jar app.jar
 
-# 7️⃣ Expose port 8080 (default Spring Boot port)
+# 8️⃣ Expose port 8080 (default Spring Boot port)
 EXPOSE 8080
-
-# 8️⃣ Set environment variables (optional for MySQL, can also configure in Render dashboard)
-# ENV SPRING_DATASOURCE_URL=jdbc:mysql://<HOST>:<PORT>/<DB_NAME>
-# ENV SPRING_DATASOURCE_USERNAME=<USERNAME>
-# ENV SPRING_DATASOURCE_PASSWORD=<PASSWORD>
 
 # 9️⃣ Run the jar
 ENTRYPOINT ["java","-jar","app.jar"]
