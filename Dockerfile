@@ -21,8 +21,13 @@ RUN ./mvnw clean package -DskipTests
 # 7️⃣ Copy the generated jar into container
 RUN cp target/BloggingProject-0.0.1-SNAPSHOT.jar app.jar
 
-# 8️⃣ Expose port 8080 (default Spring Boot port)
+# 8️⃣ Expose port 8080 (Spring Boot default)
 EXPOSE 8080
 
-# 9️⃣ Run the jar
+# 9️⃣ Set environment variables for PostgreSQL (optional, can also use Render dashboard)
+# ENV SPRING_DATASOURCE_URL=jdbc:postgresql://<HOST>:<PORT>/<DB_NAME>
+# ENV SPRING_DATASOURCE_USERNAME=<USERNAME>
+# ENV SPRING_DATASOURCE_PASSWORD=<PASSWORD>
+
+# 10️⃣ Run the jar
 ENTRYPOINT ["java","-jar","app.jar"]
